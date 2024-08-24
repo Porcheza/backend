@@ -15,6 +15,6 @@ export class Ticket {
   @Column({ name: 'contact_info', type: 'text', nullable: false })
   contactInfo: string;
 
-  @Column({ type: 'enum', enum: Status })
+  @Column({ type: 'varchar', length: 36, nullable: false })
   status: Status;
 }

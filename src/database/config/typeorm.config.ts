@@ -9,7 +9,7 @@ const config: DataSourceOptions = {
   database: process.env.POSTGRES_DATABASE,
   entities: ['dist/resources/**/entities/*.entity.js'],
   migrations: ['dist/database/migrations/*.js'],
-  migrationsRun: false,
+  migrationsRun: true,
   synchronize: false,
 };
 export default config;
