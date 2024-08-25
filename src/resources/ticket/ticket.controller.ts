@@ -5,7 +5,7 @@ import {
   Body,
   Patch,
   Param,
-  Delete,
+  // Delete,
   Query,
 } from '@nestjs/common';
 import { TicketService } from './ticket.service';
@@ -48,8 +48,8 @@ export class TicketController {
     return this.ticketService.update(+id, updateTicketDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.ticketService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.ticketService.remove(+id);
+  // }
 }
