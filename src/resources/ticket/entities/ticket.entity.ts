@@ -1,5 +1,11 @@
 import { Status } from 'src/common/enum/status';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity({ name: 'ticket' })
 export class Ticket {
@@ -17,4 +23,13 @@ export class Ticket {
 
   @Column({ type: 'varchar', length: 36, nullable: false })
   status: Status;
+
+  @Column({ type: 'integer', nullable: false })
+  order: number;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }
