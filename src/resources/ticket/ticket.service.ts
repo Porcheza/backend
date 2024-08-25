@@ -1,7 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { CreateTicketDto } from './dto/create-ticket.dto';
 import { UpdateTicketDto } from './dto/update-ticket.dto';
-import { Equal, MoreThan, MoreThanOrEqual, Not, Repository } from 'typeorm';
+import {
+  Equal,
+  FindOptionsWhere,
+  MoreThan,
+  MoreThanOrEqual,
+  Not,
+  Repository,
+} from 'typeorm';
 import { Ticket } from './entities/ticket.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { omit } from 'lodash';
@@ -30,8 +37,11 @@ export class TicketService {
     return this.ticketRepository.save(createTicketDto);
   }
 
-  findAll() {
-    return this.ticketRepository.find({ order: { order: 'ASC' } });
+  findAll(where: FindOptionsWhere<Ticket> = {}, order: any = {}) {
+    return this.ticketRepository.find({
+      where,
+      order: { ...order, order: 'ASC' },
+    });
   }
 
   findOne(id: number) {

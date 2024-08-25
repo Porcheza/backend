@@ -6,10 +6,14 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { TicketService } from './ticket.service';
 import { CreateTicketDto } from './dto/create-ticket.dto';
 import { UpdateTicketDto } from './dto/update-ticket.dto';
+import { FindOptionsWhere, In } from 'typeorm';
+import { Ticket } from './entities/ticket.entity';
+import { QueryFindAllTicketDto } from './dto/query-ticket.dto';
 
 @Controller('ticket')
 export class TicketController {
@@ -21,8 +25,17 @@ export class TicketController {
   }
 
   @Get()
-  findAll() {
-    return this.ticketService.findAll();
+  findAll(@Query() params: QueryFindAllTicketDto) {
+    const where: FindOptionsWhere<Ticket> = {};
+    let order: any = {};
+    if (params.status) {
+      where.status = In(params.status);
+    }
+    if (params.sortBy) {
+      order = { ...params.sortBy };
+    }
+
+    return this.ticketService.findAll(where, order);
   }
 
   @Get(':id')
