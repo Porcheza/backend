@@ -50,17 +50,22 @@ export class TicketService {
       where: {
         id: Not(Equal(id)),
         status: oldTicket.status,
-        order: sameStatus
-          ? MoreThanOrEqual(updateTicketDto.newOrder)
-          : MoreThan(oldTicket.order),
+        order: sameStatus ? undefined : MoreThan(oldTicket.order),
       },
       order: { order: 'ASC' },
     });
 
+    let orderRunning = 0;
     for (const [index, ticket] of reOrderOldStatus.entries()) {
-      ticket.order = sameStatus
-        ? updateTicketDto.newOrder + index + 1
-        : ticket.order - 1;
+      if (sameStatus) {
+        orderRunning = index + 1;
+        if (orderRunning >= updateTicketDto.newOrder) {
+          orderRunning += 1;
+        }
+        ticket.order = orderRunning;
+      } else {
+        ticket.order = ticket.order - 1;
+      }
 
       await this.ticketRepository.save(ticket);
     }
